@@ -218,3 +218,11 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+.DS_Store
+
+**/.dlt/
+
+**/setup_user.sql
+
+**/setup_service_acc.sql
