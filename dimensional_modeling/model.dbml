@@ -1,0 +1,68 @@
+// ---------------------------------------------------------------
+// FAKTATABELL
+// ---------------------------------------------------------------
+Table fct_flight_movement {
+  flight_movement_key bigint [pk, increment, note: 'Surrogatnyckel']
+
+  // Degenererade dimensioner
+  direction varchar [not null, note: 'Ankomst eller avgång (arrivals/departures)']
+  flight_id varchar [not null, note: 'Flightnummer, t.ex. SK007']
+
+  // Främmande nycklar
+  scheduled_date_key int [not null, ref: > dim_date.date_key]
+  airport_key int [not null, ref: > dim_airport.airport_key, note: 'Swedavia-flygplatsen där rörelsen sker']
+  other_airport_key int [not null, ref: > dim_airport.airport_key, note: 'Motpartens flygplats (från/till)']
+  airline_key int [not null, ref: > dim_airline.airline_key]
+  status_key int [not null, ref: > dim_flight_status.status_key]
+  di_key int [not null, ref: > dim_di_indicator.di_key]
+
+  // Tidsstämplar (UTC), rådata från API:t
+  // Förseningsmått (minuter, flaggor osv.) beräknas i martlagret
+  scheduled_utc timestamp [not null, note: 'Planerad tid']
+  estimated_utc timestamp [null, note: 'Beräknad tid']
+  actual_utc timestamp [null, note: 'Faktisk tid']
+
+  // Metadata från laddningen
+  fetched_at timestamp [not null, note: 'När raden hämtades från API:t (UTC)']
+}
+
+// ---------------------------------------------------------------
+// DIMENSIONER
+// ---------------------------------------------------------------
+Table dim_date {
+  date_key int [pk, note: 'Format yyyymmdd']
+  full_date date [not null, unique]
+  year smallint [not null]
+  month smallint [not null]
+}
+
+Table dim_airport {
+  airport_key int [pk, increment]
+  iata_code char [not null, unique]
+  icao_code char
+  name_sv varchar
+  name_en varchar
+  is_swedavia_airport boolean [not null, default: false]
+
+  Note: 'Role-playing dimension: används både som airport_key och other_airport_key'
+}
+
+Table dim_airline {
+  airline_key int [pk, increment]
+  iata_code varchar [not null, unique]
+  icao_code varchar
+  name varchar
+}
+
+Table dim_flight_status {
+  status_key int [pk, increment]
+  status_code varchar [not null, unique, note: 'SCH, FPL, FLS, SEQ, ACT, CAN, LAN, RER, DIV, DEL']
+  text_sv varchar
+  text_en varchar
+}
+
+Table dim_di_indicator {
+  di_key int [pk, increment]
+  di_code char(1) [not null, unique, note: 'D = inrikes, S = Schengen, I = internationellt']
+  description varchar
+}
