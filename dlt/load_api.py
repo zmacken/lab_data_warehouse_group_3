@@ -1,4 +1,4 @@
-from datetime import date, timedelta
+from datetime import date, datetime, timedelta, timezone
 from urllib import response
 import dlt
 import requests
@@ -31,22 +31,22 @@ ENDPOINTS = [
 ]
 
 
-# def get_flight_date():
-#     # Returns the dates for: 3 days ago, 2 days ago, 1 day ago
-
-#     dates = []
-
-#     for days_ago in range(2, 0, -1):
-#         flight_date = date.today() - timedelta(days=days_ago)
-#         dates.append(flight_date)
-
-#     return dates
-
 def get_flight_date():
+    # Returns the dates for:  2 days ago, 1 day ago
+
     dates = []
-    flight_date = date.today() - timedelta(days=1)
-    dates.append(flight_date)
+
+    for days_ago in range(2, 0, -1):
+        flight_date = date.today() - timedelta(days=days_ago)
+        dates.append(flight_date)
+
     return dates
+
+# def get_flight_date():
+#     dates = []
+#     flight_date = date.today() - timedelta(days=1)
+#     dates.append(flight_date)
+#     return dates
 
 def get_flights(IATA, endpoint, flight_date):
     # Get flight data from Swedavia API.
@@ -63,9 +63,10 @@ def get_flights(IATA, endpoint, flight_date):
     return response.json()
 
 
-@dlt.resource(write_disposition="replace")
+@dlt.resource(write_disposition="append")
 def get_flight_data():
     # Extract flight data for the previous days.
+    fetched_at = datetime.now(timezone.utc).isoformat()
     dates = get_flight_date()
     for flight_date in dates:
         print(f"Getting flights for {flight_date}")
@@ -76,6 +77,7 @@ def get_flight_data():
                 for flight in data.get("flights", []):
                     flight["direction"] = endpoint          # "arrivals" / "departures"
                     flight["query_date"] = flight_date.isoformat()
+                    flight["fetched_at"] = fetched_at
                     yield flight
 
 
