@@ -228,3 +228,10 @@ __marimo__/
 **/setup_service_acc.sql
 
 .idea/
+
+# dbt
+target/
+dbt_packages/
+logs/
+.env
+macros/
