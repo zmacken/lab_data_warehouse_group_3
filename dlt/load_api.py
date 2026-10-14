@@ -96,3 +96,6 @@ if __name__ == "__main__":
     os.chdir(working_directory)
 
     run_pipeline()
+
+#Borde byta till denna, så att den matchar load wiki
+#run_pipeline("flight_data", get_flight_data, table_name="flights")
