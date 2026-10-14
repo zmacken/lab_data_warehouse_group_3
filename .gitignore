@@ -226,3 +226,5 @@ __marimo__/
 **/setup_user.sql
 
 **/setup_service_acc.sql
+
+.idea/
