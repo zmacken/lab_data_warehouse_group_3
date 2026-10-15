@@ -55,10 +55,6 @@ Table dim_airline {
 <<<<<<< HEAD
   iata_code varchar [not null]
   icao_code varchar [unique]
-  name varchar
-=======
-  iata_code varchar [not null, unique]
-  icao_code varchar
   name varchar [note: 'Flygbolagets namn (API + Wikipedia)']
   callsign varchar [note: 'Från Wikipedia (Telephony Designator)']
   country varchar [note: 'Från Wikipedia (Country/Region)']
