@@ -1,3 +1,4 @@
+{{ config(enabled=false) }}
 with wiki_airlines as (
     select * from {{ source('swedavia', 'wiki_airlines') }}
 )
