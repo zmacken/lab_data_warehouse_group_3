@@ -12,6 +12,7 @@ load_dotenv(ROOT / ".env")
 
 dlt_resource = DagsterDltResource()
 
+#TODO : lägg till för resten av datafilerna 
 
 @dlt_assets(
     dlt_source=flights_source(),
