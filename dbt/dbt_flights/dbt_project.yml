@@ -40,5 +40,5 @@ models:
     dim:
       +schema: staging
 
-    # fct:
-    #   +schema: staging
+    fct:
+      +schema: staging
