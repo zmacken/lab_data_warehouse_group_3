@@ -52,13 +52,11 @@ Table dim_airport {
 
 Table dim_airline {
   airline_key int [pk, increment]
-<<<<<<< HEAD
   iata_code varchar [not null]
   icao_code varchar [unique]
   name varchar [note: 'Flygbolagets namn (API + Wikipedia)']
   callsign varchar [note: 'Från Wikipedia (Telephony Designator)']
   country varchar [note: 'Från Wikipedia (Country/Region)']
->>>>>>> 8bf5880d4863809549f75ac5f286c3bbe6111491
 }
 
 Table dim_flight_status {
