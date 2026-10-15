@@ -49,8 +49,8 @@ Table dim_airport {
 
 Table dim_airline {
   airline_key int [pk, increment]
-  iata_code varchar [not null, unique]
-  icao_code varchar
+  iata_code varchar [not null]
+  icao_code varchar [unique]
   name varchar
 }
 
