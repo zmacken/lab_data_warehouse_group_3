@@ -5,6 +5,9 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "dagster>=1.13.26",
+    "dagster-dlt>=0.29.26",
+    "dagster-webserver>=1.13.26",
     "dbt-core>=1.12.5",
     "dbt-snowflake>=1.12.1",
     "dlt[parquet,snowflake]>=1.31.0",
@@ -16,3 +19,5 @@ dependencies = [
     "snowflake-connector-python>=4.8.0",
     "streamlit>=1.65.0",
 ]
+[tool.dagster]
+python_file = "orchestration/definitions.py"
