@@ -40,9 +40,5 @@ models:
     dim:
       +schema: staging
 
-    fct:
-      +schema: staging
-
-    mart:
-      +schema: marts
-      +materialized: view
+    # fct:
+    #   +schema: staging
