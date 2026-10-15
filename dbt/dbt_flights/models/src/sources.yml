@@ -1,0 +1,10 @@
+version: 2
+
+sources:
+  - name: swedavia
+    database: FLIGHTDATA_DB
+    schema: RAW
+    tables:
+      - name: flights
+      - name: wiki_airports
+      - name: wiki_airlines
