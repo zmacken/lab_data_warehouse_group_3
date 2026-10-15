@@ -1,7 +1,7 @@
 from pathlib import Path
+
 import dlt
 import pandas as pd
-from helpers import run_pipeline
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = REPO_ROOT / "scraping" / "data"
@@ -25,10 +25,3 @@ def wiki_airports():
 @dlt.source
 def wikipedia_source():
     return wiki_airlines(), wiki_airports()
-
-
-if __name__ == "__main__":
-    run_pipeline("wikipedia", wikipedia_source)
-
-# uv run python dlt/load_wikipedia_csv.py
-
