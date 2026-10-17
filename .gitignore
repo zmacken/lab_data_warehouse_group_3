@@ -230,10 +230,8 @@ __marimo__/
 .idea/
 
 # dbt
-dbt/dbt_flights/dbt_packages/
-dbt/dbt_flights/target/
-dbt/dbt_flights/logs/
-
-# dagster
-.tmp_dagster_home_*/
-.dagster/
+target/
+dbt_packages/
+logs/
+.env
+macros/
