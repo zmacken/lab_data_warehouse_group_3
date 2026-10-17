@@ -6,6 +6,7 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "dagster>=1.13.26",
+    "dagster-dbt>=0.29.26",
     "dagster-dlt>=0.29.26",
     "dagster-webserver>=1.13.26",
     "dbt-core>=1.12.5",

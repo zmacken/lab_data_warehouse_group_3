@@ -35,7 +35,7 @@ def get_flights(airport, endpoint, flight_date):
     return response.json()
 
 
-@dlt.resource(table_name="flights", write_disposition="merge")
+@dlt.resource(table_name="flights", write_disposition="append")
 def flights_resource():
     print(f"Airports: {IATA}")  # test
     # Tidsstämpel för just den här hämtningen
