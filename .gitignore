@@ -228,3 +228,12 @@ __marimo__/
 **/setup_service_acc.sql
 
 .idea/
+
+# dbt
+dbt/dbt_flights/dbt_packages/
+dbt/dbt_flights/target/
+dbt/dbt_flights/logs/
+
+# dagster
+.tmp_dagster_home_*/
+.dagster/
