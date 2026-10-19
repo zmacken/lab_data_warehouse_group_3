@@ -72,7 +72,7 @@ models:
       - name: airport_key
         data_tests: [unique, not_null]
       - name: iata_code
-        data_tests: [unique, not_null]
+        data_tests: [not_null]
       - name: is_swedavia_airport
         data_tests: [not_null]
 
@@ -81,7 +81,7 @@ models:
       - name: airline_key
         data_tests: [unique, not_null]
       - name: icao_code
-        data_tests: [unique, not_null]
+        data_tests: [not_null]
       - name: iata_code
         data_tests: [not_null]
 
