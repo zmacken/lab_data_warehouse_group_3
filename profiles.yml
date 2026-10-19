@@ -1,0 +1,13 @@
+dbt_flights:
+  target: dev
+  outputs:
+    dev:
+      type: snowflake
+      account: "{{ env_var('SNOWFLAKE_ACCOUNT') }}"
+      user: DBT_USER
+      password: "{{ env_var('SNOWFLAKE_TRANSFORMER_PASSWORD') }}"
+      role: TRANSFORMER
+      database: FLIGHTDATA_DB
+      warehouse: FLIGHTDATA_WH
+      schema: staging
+      threads: 1
