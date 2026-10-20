@@ -1,0 +1,105 @@
+version: 2
+
+models:
+  - name: fct_flight_movement
+    columns:
+      - name: flight_movement_key
+        data_tests: [unique, not_null]
+      - name: direction
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['A', 'D']
+      - name: flight_id
+        data_tests: [not_null]
+      - name: scheduled_date_key
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_date')
+                field: date_key
+      - name: airport_key
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_airport')
+                field: airport_key
+      - name: other_airport_key
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_airport')
+                field: airport_key
+      - name: airline_key
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_airline')
+                field: airline_key
+      - name: status_key
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_flight_status')
+                field: status_key
+      - name: di_key
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_di_indicator')
+                field: di_key
+      - name: scheduled_utc
+        data_tests: [not_null]
+      - name: fetched_at
+        data_tests: [not_null]
+
+  - name: dim_date
+    columns:
+      - name: date_key
+        data_tests: [unique, not_null]
+      - name: full_date
+        data_tests: [unique, not_null]
+
+  - name: dim_airport
+    columns:
+      - name: airport_key
+        data_tests: [unique, not_null]
+      - name: iata_code
+        data_tests: [not_null]
+      - name: is_swedavia_airport
+        data_tests: [not_null]
+
+  - name: dim_airline
+    columns:
+      - name: airline_key
+        data_tests: [unique, not_null]
+      - name: icao_code
+        data_tests: [not_null]
+      - name: iata_code
+        data_tests: [not_null]
+
+  - name: dim_flight_status
+    columns:
+      - name: status_key
+        data_tests: [unique, not_null]
+      - name: status_code
+        data_tests: [unique, not_null]
+
+  - name: dim_di_indicator
+    columns:
+      - name: di_key
+        data_tests: [unique, not_null]
+      - name: di_code
+        data_tests:
+          - unique
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['D', 'S', 'I']
