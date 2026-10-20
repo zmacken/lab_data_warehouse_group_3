@@ -25,7 +25,7 @@ SELECT
     apt_local.city as airport_city,
     apt_local.name_sv as airport_name_sv,
     apt_other.city as other_airport_city,
-    apt_other.name_sv as other_airport_name_sv
+    apt_other.name_sv as other_airport_name_sv,
 
     dim_date.date_key,
     dim_date.full_date,
