@@ -1,0 +1,9 @@
+services:
+  pipeline:
+    build:
+      context: .
+      dockerfile: dockerfile.dwh
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env

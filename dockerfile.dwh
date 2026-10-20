@@ -1,0 +1,25 @@
+FROM python:3.12
+
+ENV DBT_PROFILES_DIR=/pipeline
+ENV PYTHONPATH=/pipeline
+ENV PYTHONUNBUFFERED=1
+
+WORKDIR /pipeline
+
+COPY pyproject.toml uv.lock ./
+RUN pip install --no-cache-dir uv
+RUN uv sync --frozen --no-dev
+
+COPY data_extract_load/ ./data_extract_load/
+COPY scraping/ ./scraping/
+COPY dbt/dbt_flights/ ./dbt/dbt_flights/
+COPY orchestration/ ./orchestration/
+COPY profiles.yml ./profiles.yml
+
+# Installera dbt-paket (dbt_utils) i imagen
+RUN cd dbt/dbt_flights && uv run dbt deps
+
+WORKDIR /pipeline/orchestration
+
+EXPOSE 3000
+CMD ["uv", "run", "dagster", "dev", "-f", "definitions.py", "-h", "0.0.0.0", "-p", "3000"]
