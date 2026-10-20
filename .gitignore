@@ -6,7 +6,7 @@ __pycache__/
 # C extensions
 *.so
 
-# dashboard/.streamlit
+dashboard/.streamlit/
 
 # Distribution / packaging
 .Python
