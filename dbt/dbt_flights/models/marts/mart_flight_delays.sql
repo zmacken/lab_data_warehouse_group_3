@@ -1,4 +1,4 @@
-{{config(materialized="view")}}
+{{config(materialized="view", schema="marts")}}
 
 WITH fct AS (
     SELECT * FROM {{ref("fct_flight_movement")}}
