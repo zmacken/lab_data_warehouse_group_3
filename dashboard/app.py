@@ -99,3 +99,49 @@ else:
     filtered_df = df
     
 st.dataframe(filtered_df, use_container_width=True)
+
+
+#######################################
+
+
+st.subheader("Delay Analysis")
+st.caption("Leave the filter empty to include everything.")
+
+#Filter query
+df["IS_DELAYED"] = df["IS_DELAYED"].fillna(False).astype(bool)
+df["DELAY_MINUTES"] = pd.to_numeric(df["DELAY_MINUTES"], errors="coerce")
+df["AIRPORT"] = df["AIRPORT_NAME_SV"].fillna(df["AIRPORT_CITY"])
+df["FULL_DATE"] = pd.to_datetime(df["FULL_DATE"]).dt.date
+
+breakdown_options = {
+    "Direction": "DIRECTION",
+    "Airline": "AIRLINE_NAME",
+    "Airport": "AIRPORT",
+    "Date": "FULL_DATE",
+}
+#Filter selector
+breakdown_sel = st.multiselect("Break down by", list(breakdown_options), default=["Airline"])
+
+def summarize(data, group_cols):
+    data = data.assign(DELAY_IF_DELAYED=data["DELAY_MINUTES"].where(data["IS_DELAYED"]))
+    #default
+    if not group_cols:
+        data = data.assign(SCOPE="All selected flights")
+        group_cols = ["SCOPE"]
+    out = data.groupby(group_cols, dropna=False).agg(
+        FLIGHTS=("FLIGHT_ID", "size"),
+        DELAYED_FLIGHTS=("IS_DELAYED", "sum"),
+        TOTAL_DELAY_MIN=("DELAY_IF_DELAYED", "sum"),
+        AVG_DELAY_MIN=("DELAY_IF_DELAYED", "mean"),
+    ).reset_index()
+    #% of total delayed
+    out["PCT_DELAYED"] = (out["DELAYED_FLIGHTS"] / out["FLIGHTS"] * 100).round(1)
+    out["AVG_DELAY_MIN"] = out["AVG_DELAY_MIN"].round(1)
+    return out.sort_values("DELAYED_FLIGHTS", ascending=False)
+
+
+summary = summarize(df, [breakdown_options[b] for b in breakdown_sel])
+st.dataframe(summary, use_container_width=True, hide_index=True)
+st.download_button("Download as CSV", summary.to_csv(index=False), "delay_analysis.csv", "text/csv")
+
+st.divider()
