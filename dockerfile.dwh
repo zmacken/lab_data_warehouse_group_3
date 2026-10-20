@@ -15,6 +15,7 @@ COPY scraping/ ./scraping/
 COPY dbt/dbt_flights/ ./dbt/dbt_flights/
 COPY orchestration/ ./orchestration/
 COPY profiles.yml ./profiles.yml
+RUN mkdir -p /root/.dbt && cp profiles.yml /root/.dbt/profiles.yml
 
 # Installera dbt-paket (dbt_utils) i imagen
 RUN cd dbt/dbt_flights && uv run dbt deps
