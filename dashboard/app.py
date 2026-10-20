@@ -136,12 +136,29 @@ def summarize(data, group_cols):
     ).reset_index()
     #% of total delayed
     out["PCT_DELAYED"] = (out["DELAYED_FLIGHTS"] / out["FLIGHTS"] * 100).round(1)
-    out["AVG_DELAY_MIN"] = out["AVG_DELAY_MIN"].round(1)
+    out["AVG_DELAY_MIN"] = out["AVG_DELAY_MIN"].fillna(0).round(1)
     return out.sort_values("DELAYED_FLIGHTS", ascending=False)
 
 
 summary = summarize(df, [breakdown_options[b] for b in breakdown_sel])
-st.dataframe(summary, use_container_width=True, hide_index=True)
+# remembered that data should be presented without _ so it doesn't look like its straight from DB
+summary_display = summary.rename(columns={
+    "AIRLINE_NAME": "Airline",
+    "FULL_DATE": "Date",
+    "FLIGHTS": "Total Flights",
+    "DELAYED_FLIGHTS": "Delayed Flights",
+    "TOTAL_DELAY_MIN": "Total Delay (min)",
+    "AVG_DELAY_MIN": "Average Delay (min)",
+    "PCT_DELAYED": "Delayed (%)",
+})
+#Add a % to the end of nr in the pct column without making it a string,
+#format both average and total to display as whole numbers.
+st.dataframe(summary_display.style.format({
+    "Delayed (%)": "{:.1f}%",
+    "Average Delay (min)": "{:.0f}",
+    "Total Delay (min)": "{:.0f}",}),
+    use_container_width=True, hide_index=True)
+
 st.download_button("Download as CSV", summary.to_csv(index=False), "delay_analysis.csv", "text/csv")
 
 st.divider()
