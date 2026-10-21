@@ -5,7 +5,7 @@ select
                                                                         as flight_movement_key,
     direction,
     flight_id,
-    to_number(to_char(scheduled_utc::date, 'YYYYMMDD'))                 as scheduled_date_key,
+    to_number(to_char(scheduled_local_date, 'YYYYMMDD'))                as scheduled_date_key,
     {{ dbt_utils.generate_surrogate_key(['airport_iata']) }}            as airport_key,
     {{ dbt_utils.generate_surrogate_key(['other_airport_iata']) }}      as other_airport_key,
     {{ dbt_utils.generate_surrogate_key(['airline_icao']) }}            as airline_key,
@@ -15,6 +15,6 @@ select
     estimated_utc,
     actual_utc,
     datediff('minute', scheduled_utc, actual_utc)                       as delay_minutes,
-    datediff('minute', scheduled_utc, actual_utc) > 15                  as is_delayed,
+    datediff('minute', scheduled_utc, actual_utc) > {{ var('delay_threshold_minutes', 15) }}  as is_delayed,
     fetched_at
 from src_flights
