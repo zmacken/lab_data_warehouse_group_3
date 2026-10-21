@@ -1,0 +1,10 @@
+[theme]
+base="dark"
+primaryColor="#7FBB35"
+chartSequentialColors = [
+  "#F3F9EB", "#DDEFC8", "#C5E4A0", "#ADD879", "#95CD51",
+  "#7FBB35",
+  "#66962C", "#517722", "#3B5719", "#283B11"
+]
+
+chartCategoricalColors = ["#7FBB35", "#3B7A57", "#B5D98A", "#4F8FBF", "#E3A83C", "#8A8F98"]

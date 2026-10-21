@@ -6,7 +6,7 @@ __pycache__/
 # C extensions
 *.so
 
-dashboard/.streamlit/
+
 
 # Distribution / packaging
 .Python
@@ -237,7 +237,7 @@ dbt_packages/
 logs/
 .env
 macros/
-**/.streamlit
 **/pipelines
 
-!.streamlit/config.toml
+dashboard/.streamlit/*
+!dashboard/.streamlit/config.toml
