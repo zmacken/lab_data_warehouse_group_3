@@ -53,7 +53,7 @@ def dlt_wikipedia(context: dg.AssetExecutionContext, dlt: DagsterDltResource):
 # ==================== #
 # kräver att 'dbt deps' körts i dbt-projektet
 dbt_project_directory = ROOT / "dbt/dbt_flights"
-profiles_dir = Path.home() / ".dbt"  # här ligger profiles.yml
+profiles_dir = os.getenv("DBT_PROFILES_DIR")  # här ligger profiles.yml
 
 dbt_project = DbtProject(
     project_dir=dbt_project_directory,

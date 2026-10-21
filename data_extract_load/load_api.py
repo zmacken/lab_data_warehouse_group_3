@@ -3,8 +3,7 @@ from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
 import dlt
-import requests
-from Demos.mmapfile_demo import offset
+import requests 
 from dotenv import load_dotenv
 
 # Rotmappen räknas ut från filens plats, så .env hittas oavsett varifrån du kör

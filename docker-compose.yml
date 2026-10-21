@@ -7,6 +7,10 @@ services:
       - "3000:3000"
     env_file:
       - .env
+    environment:
+      - DBT_PROFILES_DIR=/root/.dbt
+    volumes:
+      - ~/.dbt:/root/.dbt
 
   dashboard:
     build:
