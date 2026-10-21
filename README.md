@@ -87,8 +87,7 @@ docker compose up --build
 
 ## Streamlit
 
-flightdata.streamlit.app
-`
+[flightdata.streamlit.app](https://flightdata.streamlit.app/)
 
 ## Team
 
