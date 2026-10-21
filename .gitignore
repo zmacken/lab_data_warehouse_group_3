@@ -239,3 +239,5 @@ logs/
 macros/
 **/.streamlit
 **/pipelines
+
+!.streamlit/config.toml
