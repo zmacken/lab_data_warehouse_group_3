@@ -237,4 +237,5 @@ dbt_packages/
 logs/
 .env
 macros/
-.streamlit/
+**/.streamlit
+**/pipelines

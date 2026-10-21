@@ -4,6 +4,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent  # projektets rotmapp
 sys.path.insert(0, str(ROOT))  # gör att data_extract_load kan importeras
+os.environ["DLT_PROJECT_DIR"] = str(ROOT / "data_extract_load")
+os.environ["DLT_DATA_DIR"] = str(ROOT / "data_extract_load")
 
 import dagster as dg
 import dlt
@@ -14,25 +16,7 @@ from dotenv import load_dotenv
 from data_extract_load.load_api import flights_source
 from data_extract_load.load_wikipedia_csv import wikipedia_source
 
-load_dotenv(ROOT / ".env")  # läser Snowflake-uppgifter från .env
-
-
-def snowflake_destination():
-    # Snowflake-mål för dlt, används av båda pipelines
-    return dlt.destinations.snowflake(
-        credentials={
-            "database": os.getenv("SNOWFLAKE_DATABASE"),
-            "username": os.getenv("SNOWFLAKE_USER"),
-            "password": os.getenv("SNOWFLAKE_PASSWORD"),
-            "host": os.getenv("SNOWFLAKE_ACCOUNT"),
-            "warehouse": os.getenv("SNOWFLAKE_WAREHOUSE"),
-            "role": os.getenv("SNOWFLAKE_ROLE"),
-        }
-    )
-
-
 dlt_resource = DagsterDltResource()  # kör dlt-kod i Dagster
-
 
 # ==================== #
 #    Swedavia Asset    #
@@ -42,7 +26,7 @@ dlt_resource = DagsterDltResource()  # kör dlt-kod i Dagster
     dlt_pipeline=dlt.pipeline(
         pipeline_name="flight_data",
         dataset_name="raw",
-        destination=snowflake_destination(),
+        destination= dlt.destinations.snowflake(),
     ),
 )
 def dlt_flights(context: dg.AssetExecutionContext, dlt: DagsterDltResource):
@@ -57,7 +41,7 @@ def dlt_flights(context: dg.AssetExecutionContext, dlt: DagsterDltResource):
     dlt_pipeline=dlt.pipeline(
         pipeline_name="wikipedia",
         dataset_name="raw",
-        destination=snowflake_destination(),
+        destination= dlt.destinations.snowflake(),
     ),
 )
 def dlt_wikipedia(context: dg.AssetExecutionContext, dlt: DagsterDltResource):
