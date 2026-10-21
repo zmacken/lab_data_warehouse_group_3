@@ -6,6 +6,8 @@ __pycache__/
 # C extensions
 *.so
 
+dashboard/.streamlit/
+
 # Distribution / packaging
 .Python
 build/
@@ -226,3 +228,14 @@ __marimo__/
 **/setup_user.sql
 
 **/setup_service_acc.sql
+
+.idea/
+
+# dbt
+target/
+dbt_packages/
+logs/
+.env
+macros/
+**/.streamlit
+**/pipelines
