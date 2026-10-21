@@ -42,3 +42,7 @@ models:
 
     fct:
       +schema: staging
+
+vars:
+  dim_date_start: '2026-01-01'
+  delay_threshold_minutes: 15
