@@ -4,6 +4,7 @@ from pathlib import Path
 
 import dlt
 import requests
+from Demos.mmapfile_demo import offset
 from dotenv import load_dotenv
 
 # Rotmappen räknas ut från filens plats, så .env hittas oavsett varifrån du kör
@@ -20,8 +21,8 @@ IATA = os.getenv(
 ENDPOINTS = ["arrivals", "departures"]
 
 
-def get_flight_dates(days_back=1):
-    return [date.today() - timedelta(days=days_back)]
+def get_flight_dates(days_back=3):
+    return [date.today() - timedelta(days=offset) for offset in range(days_back - 1, -1,-1)]
 
 
 def get_flights(airport, endpoint, flight_date):
