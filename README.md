@@ -84,6 +84,10 @@ docker compose up --build
 
 - Dagster: http://localhost:3000
 - Streamlit: http://localhost:8501
+
+## Streamlit
+
+flightdata.streamlit.app
 `
 
 ## Team
