@@ -1,6 +1,7 @@
 import altair as alt
 import pandas as pd
 import streamlit as st
+import os
 
 st.set_page_config(
     page_title="Swedavia Airports Flight Delays",
@@ -11,7 +12,17 @@ st.set_page_config(
 
 st.title("Swedavia Airports Flight Delays")
 
-conn = st.connection("snowflake")
+conn = st.connection(
+    "snowflake",
+    type="snowflake",
+    account=os.environ["DASHBOARD_SNOWFLAKE_ACCOUNT"],
+    user=os.environ["DASHBOARD_SNOWFLAKE_USER"],
+    password=os.environ["DASHBOARD_SNOWFLAKE_PASSWORD"],
+    role=os.environ["DASHBOARD_SNOWFLAKE_ROLE"],
+    warehouse=os.environ["DASHBOARD_SNOWFLAKE_WAREHOUSE"],
+    database=os.environ["DASHBOARD_SNOWFLAKE_DATABASE"],
+    schema=os.environ["DASHBOARD_SNOWFLAKE_SCHEMA"],
+)
 
 
 # Hämta data (cachas i 1 timme)

@@ -1,5 +1,7 @@
 services:
   dwh_pipeline:
+    platform: linux/amd64
+    image: labwarehouse.azurecr.io/dwh_pipeline:latest
     build:
       context: .
       dockerfile: dockerfile.dwh
@@ -7,8 +9,14 @@ services:
       - "3000:3000"
     env_file:
       - .env
+    environment:
+      - DBT_PROFILES_DIR=/root/.dbt
+    volumes:
+      - ~/.dbt:/root/.dbt
 
   dashboard:
+    platform: linux/amd64
+    image: labwarehouse.azurecr.io/dashboard:latest
     build:
       context: .
       dockerfile: dockerfile.dashboard
